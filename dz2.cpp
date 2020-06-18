@@ -1,0 +1,6 @@
+#include "Hex.h"
+
+int main()
+{
+	return 0;
+}
