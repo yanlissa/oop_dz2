@@ -57,12 +57,15 @@ public:
 		m_data = d;
 	}
 
-	Hex(const Hex& h)
+	Hex(const Hex& h, std::size_t sh = 0)
 	{
+		if (h.m_order + sh > HEX_SIZE) {
+			throw std::overflow_error("Hex::Hex");
+		}
 		m_data = new unsigned char [HEX_SIZE]();
-		memcpy(m_data, h.m_data, HEX_SIZE);
+		memcpy(m_data + sh, h.m_data, HEX_SIZE - sh);
 		m_sign = h.m_sign;
-		m_order = h.m_order;
+		m_order = h.m_order + sh;
 	}
 
 	Hex& operator=(const Hex& h)
@@ -97,6 +100,28 @@ public:
 			return add(h);
 		}
 		return subtract(h);
+	}
+
+	Hex& operator*=(const Hex& h)
+	{
+		if (h.m_order + m_order > HEX_SIZE) {
+			throw std::overflow_error("Hex::add");
+		}
+		m_sign ^= h.m_sign;
+		Hex result("0");
+		const Hex* a = this;
+		const Hex* b = &h;
+		if (h.m_order > m_order) {
+			b = a;
+			a = &h;
+		}
+
+		for (int i = 0; i < b->m_order; i++) {
+			Hex tmp(*a , i);
+			tmp.multiply_digit(b->m_data[i]);
+			result += tmp;
+		}
+		return *this = result;
 	}
 
 	Hex& add(const Hex& h)
@@ -149,6 +174,28 @@ public:
 		}
 
 		m_order = new_order;
+
+		return *this;
+	}
+
+	Hex& multiply_digit(unsigned char d)
+	{
+		unsigned int c{0};
+
+		for (int i = 0; i < m_order; i++) {
+			c += m_data[i] * d;
+			std::cout << (int)m_data[i] << " * " << (int)d << " = " << c << "\n";
+			m_data[i] = c & 0xF;
+			c >>= 4;
+		}
+
+		if (c) {
+			if (m_order == HEX_SIZE) {
+				throw std::overflow_error("Hex::add");
+			}
+			m_data[m_order] = c;
+			m_order++;
+		}
 
 		return *this;
 	}

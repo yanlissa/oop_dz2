@@ -37,5 +37,14 @@ int main()
 	hx -= h;
 	cout << "96 - 185 = " << hx << endl;
 
+	h = Hex("4");
+	h *= h;
+	cout << "4 * 4 = " << h << endl;
+
+	h = Hex("64");
+	hx = Hex("3e8");
+	h *= hx;
+	cout << "64 * 3e8 = " << h << endl;
+
 	return 0;
 }
