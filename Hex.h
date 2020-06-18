@@ -86,9 +86,17 @@ public:
 	Hex& operator+=(const Hex& h)
 	{
 		if (m_sign != h.m_sign) {
-		return *this;
+			return subtract(h);
 		}
 		return add(h);
+	}
+
+	Hex& operator-=(const Hex& h)
+	{
+		if (m_sign != h.m_sign) {
+			return add(h);
+		}
+		return subtract(h);
 	}
 
 	Hex& add(const Hex& h)
@@ -105,9 +113,37 @@ public:
 		}
 
 		if (c) {
+			if (m_order == HEX_SIZE) {
+				throw std::overflow_error("Hex::add");
+			}
 			m_data[m_order] = c;
 			m_order++;
 		}
+
+		return *this;
+	}
+
+	Hex& subtract(const Hex& h)
+	{
+		int c{0};
+		unsigned int new_order = 1;
+		if (h.m_order > m_order) {
+			return *this;
+		}
+
+		for (int i = 0; i < m_order; i++) {
+			c += m_data[i] - h.m_data[i];
+			m_data[i] = c;
+			if (c < 0) {
+				m_data[i] += 16;
+				c = -1;
+			}
+			if (m_data[i] > 0) {
+				new_order = i + 1;
+			}
+		}
+
+		m_order = new_order;
 
 		return *this;
 	}
