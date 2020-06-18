@@ -8,8 +8,8 @@ class Hex
 {
 private:
 	unsigned char* m_data;
-	unsigned char m_sign;
-	unsigned char m_order;
+	unsigned int m_sign;
+	unsigned int m_order;
 public:
 	Hex()
 		:m_sign{0}, m_order{0}
@@ -80,6 +80,35 @@ public:
 		h.m_data = nullptr;
 		m_sign = h.m_sign;
 		m_order = h.m_order;
+		return *this;
+	}
+
+	Hex& operator+=(const Hex& h)
+	{
+		if (m_sign != h.m_sign) {
+		return *this;
+		}
+		return add(h);
+	}
+
+	Hex& add(const Hex& h)
+	{
+		unsigned int c{0};
+		if (h.m_order > m_order) {
+			m_order = h.m_order;
+		}
+
+		for (int i = 0; i < m_order; i++) {
+			c += m_data[i] + h.m_data[i];
+			m_data[i] = c & 0xF;
+			c >>= 4;
+		}
+
+		if (c) {
+			m_data[m_order] = c;
+			m_order++;
+		}
+
 		return *this;
 	}
 

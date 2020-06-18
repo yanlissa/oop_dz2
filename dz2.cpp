@@ -12,5 +12,10 @@ int main()
 	cout << hn1 << endl;
 	cout << h100 << endl;
 	cout << ha00 << endl;
+
+	Hex h("8");
+	h += h;
+	cout << h << endl;
+
 	return 0;
 }
