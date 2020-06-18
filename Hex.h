@@ -86,6 +86,27 @@ public:
 		return *this;
 	}
 
+	bool operator<(const Hex& h)
+	{
+		if (m_order < h.m_order) {
+			return true;
+		}
+
+		if (m_order > h.m_order) {
+			return false;
+		}
+
+		for (int i = m_order - 1; i > 0; i--) {
+			if (m_data[i] < h.m_data[i]) {
+				return true;
+			}
+			if (m_data[i] > h.m_data[i]) {
+				return false;
+			}
+		}
+		return false;
+	}
+
 	Hex& operator+=(const Hex& h)
 	{
 		if (m_sign != h.m_sign) {
@@ -154,8 +175,7 @@ public:
 		unsigned int new_order = 1;
 		const unsigned char *a = m_data;
 		const unsigned char *b = h.m_data;
-		if ((h.m_order > m_order)
-				|| (h.m_order > m_order && b[m_order - 1] > a[m_order - 1])) {
+		if (*this < h) {
 			m_sign = !m_sign;
 			b = a;
 			a = h.m_data;
