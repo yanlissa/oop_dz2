@@ -86,25 +86,18 @@ public:
 		return *this;
 	}
 
-	bool operator<(const Hex& h)
+	bool operator<(const Hex& h) const
 	{
-		if (m_order < h.m_order) {
+		if (m_sign > h.m_sign) {
 			return true;
 		}
-
-		if (m_order > h.m_order) {
+		if (m_sign < h.m_sign) {
 			return false;
 		}
-
-		for (int i = m_order - 1; i > 0; i--) {
-			if (m_data[i] < h.m_data[i]) {
-				return true;
-			}
-			if (m_data[i] > h.m_data[i]) {
-				return false;
-			}
+		if (m_sign) {
+			return absolute_gt(h);
 		}
-		return false;
+		return absolute_lt(h);
 	}
 
 	Hex& operator+=(const Hex& h)
@@ -145,6 +138,86 @@ public:
 		return *this = result;
 	}
 
+	Hex& operator/=(const Hex& h)
+	{
+		if (h.m_order == 1 && h.m_data[0] == 0) {
+			throw std::overflow_error("Hex::/=");
+		}
+		Hex q("0");
+		if (absolute_lt(h)) {
+			std::cout << *this << " < " << h << "\n";
+			return *this = q;
+		}
+		m_sign ^= h.m_sign;
+
+		Hex one("1");
+		for (int i = m_order - h.m_order; i >= 0; i--) {
+			Hex tmp(h , i);
+			Hex q1(one, i);
+			while (!tmp.absolute_gt(*this)) {
+				subtract(tmp);
+				q += q1;
+			}
+		}
+		return *this = q;
+	}
+
+	bool absolute_lt(const Hex& h) const
+	{
+		if (m_order < h.m_order) {
+			return true;
+		}
+
+		if (m_order > h.m_order) {
+			return false;
+		}
+
+		for (int i = m_order - 1; i >= 0; i--) {
+			if (m_data[i] < h.m_data[i]) {
+				return true;
+			}
+			if (m_data[i] > h.m_data[i]) {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	bool absolute_gt(const Hex& h) const
+	{
+		if (m_order > h.m_order) {
+			return true;
+		}
+
+		if (m_order < h.m_order) {
+			return false;
+		}
+
+		for (int i = m_order - 1; i >= 0; i--) {
+			if (m_data[i] > h.m_data[i]) {
+				return true;
+			}
+			if (m_data[i] < h.m_data[i]) {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	bool absolute_e(const Hex& h) const
+	{
+		if (m_order != h.m_order) {
+			return false;
+		}
+
+		for (int i = m_order - 1; i > 0; i--) {
+			if (m_data[i] != h.m_data[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	Hex& add(const Hex& h)
 	{
 		unsigned int c{0};
@@ -175,7 +248,7 @@ public:
 		unsigned int new_order = 1;
 		const unsigned char *a = m_data;
 		const unsigned char *b = h.m_data;
-		if (*this < h) {
+		if (absolute_lt(h)) {
 			m_sign = !m_sign;
 			b = a;
 			a = h.m_data;
@@ -187,6 +260,8 @@ public:
 			if (c < 0) {
 				m_data[i] += 16;
 				c = -1;
+			} else {
+				c = 0;
 			}
 			if (m_data[i] > 0) {
 				new_order = i + 1;

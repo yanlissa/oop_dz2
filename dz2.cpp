@@ -46,5 +46,20 @@ int main()
 	h *= hx;
 	cout << "64 * 3e8 = " << h << endl;
 
+	h = Hex("3e");
+	hx = Hex("a");
+	h -= hx;
+	cout << "3e - a = " << h << endl;
+
+	h = Hex("64");
+	hx = Hex("a");
+	h /= hx;
+	cout << "64 / a = " << h << endl;
+
+	h = Hex("186a0");
+	hx = Hex("19");
+	h /= hx;
+	cout << "186a0 / 19 = " << h << endl;
+
 	return 0;
 }
