@@ -127,12 +127,17 @@ public:
 	{
 		int c{0};
 		unsigned int new_order = 1;
-		if (h.m_order > m_order) {
-			return *this;
+		const unsigned char *a = m_data;
+		const unsigned char *b = h.m_data;
+		if ((h.m_order > m_order)
+				|| (h.m_order > m_order && b[m_order - 1] > a[m_order - 1])) {
+			m_sign = !m_sign;
+			b = a;
+			a = h.m_data;
 		}
 
 		for (int i = 0; i < m_order; i++) {
-			c += m_data[i] - h.m_data[i];
+			c += a[i] - b[i];
 			m_data[i] = c;
 			if (c < 0) {
 				m_data[i] += 16;

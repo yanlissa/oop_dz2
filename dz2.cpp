@@ -33,5 +33,9 @@ int main()
 	h += hn1;
 	cout << "1 + (-1) = " << h << endl;
 
+	h = Hex("185");
+	hx -= h;
+	cout << "96 - 185 = " << hx << endl;
+
 	return 0;
 }
