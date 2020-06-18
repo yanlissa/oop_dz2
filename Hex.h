@@ -10,6 +10,13 @@ private:
 	unsigned char* m_data;
 	unsigned int m_sign;
 	unsigned int m_order;
+private:
+	bool absolute_lt(const Hex& h) const;
+	bool absolute_gt(const Hex& h) const;
+	bool absolute_e(const Hex& h) const;
+	Hex& add(const Hex& h);
+	Hex& subtract(const Hex& h);
+	Hex& multiply_digit(unsigned char d);
 public:
 	Hex()
 		:m_sign{0}, m_order{0}
@@ -145,7 +152,6 @@ public:
 		}
 		Hex q("0");
 		if (absolute_lt(h)) {
-			std::cout << *this << " < " << h << "\n";
 			return *this = q;
 		}
 		m_sign ^= h.m_sign;
@@ -162,137 +168,32 @@ public:
 		return *this = q;
 	}
 
-	bool absolute_lt(const Hex& h) const
+	Hex operator+(const Hex& b)
 	{
-		if (m_order < h.m_order) {
-			return true;
-		}
-
-		if (m_order > h.m_order) {
-			return false;
-		}
-
-		for (int i = m_order - 1; i >= 0; i--) {
-			if (m_data[i] < h.m_data[i]) {
-				return true;
-			}
-			if (m_data[i] > h.m_data[i]) {
-				return false;
-			}
-		}
-		return false;
+		Hex c(*this);
+		c += b;
+		return c;
 	}
 
-	bool absolute_gt(const Hex& h) const
+	Hex operator-(const Hex& b)
 	{
-		if (m_order > h.m_order) {
-			return true;
-		}
-
-		if (m_order < h.m_order) {
-			return false;
-		}
-
-		for (int i = m_order - 1; i >= 0; i--) {
-			if (m_data[i] > h.m_data[i]) {
-				return true;
-			}
-			if (m_data[i] < h.m_data[i]) {
-				return false;
-			}
-		}
-		return false;
+		Hex c(*this);
+		c -= b;
+		return c;
 	}
 
-	bool absolute_e(const Hex& h) const
+	Hex operator*(const Hex& b)
 	{
-		if (m_order != h.m_order) {
-			return false;
-		}
-
-		for (int i = m_order - 1; i > 0; i--) {
-			if (m_data[i] != h.m_data[i]) {
-				return false;
-			}
-		}
-		return true;
+		Hex c(*this);
+		c *= b;
+		return c;
 	}
 
-	Hex& add(const Hex& h)
+	Hex operator/(const Hex& b)
 	{
-		unsigned int c{0};
-		if (h.m_order > m_order) {
-			m_order = h.m_order;
-		}
-
-		for (int i = 0; i < m_order; i++) {
-			c += m_data[i] + h.m_data[i];
-			m_data[i] = c & 0xF;
-			c >>= 4;
-		}
-
-		if (c) {
-			if (m_order == HEX_SIZE) {
-				throw std::overflow_error("Hex::add");
-			}
-			m_data[m_order] = c;
-			m_order++;
-		}
-
-		return *this;
-	}
-
-	Hex& subtract(const Hex& h)
-	{
-		int c{0};
-		unsigned int new_order = 1;
-		const unsigned char *a = m_data;
-		const unsigned char *b = h.m_data;
-		if (absolute_lt(h)) {
-			m_sign = !m_sign;
-			b = a;
-			a = h.m_data;
-		}
-
-		for (int i = 0; i < m_order; i++) {
-			c += a[i] - b[i];
-			m_data[i] = c;
-			if (c < 0) {
-				m_data[i] += 16;
-				c = -1;
-			} else {
-				c = 0;
-			}
-			if (m_data[i] > 0) {
-				new_order = i + 1;
-			}
-		}
-
-		m_order = new_order;
-
-		return *this;
-	}
-
-	Hex& multiply_digit(unsigned char d)
-	{
-		unsigned int c{0};
-
-		for (int i = 0; i < m_order; i++) {
-			c += m_data[i] * d;
-			std::cout << (int)m_data[i] << " * " << (int)d << " = " << c << "\n";
-			m_data[i] = c & 0xF;
-			c >>= 4;
-		}
-
-		if (c) {
-			if (m_order == HEX_SIZE) {
-				throw std::overflow_error("Hex::add");
-			}
-			m_data[m_order] = c;
-			m_order++;
-		}
-
-		return *this;
+		Hex c(*this);
+		c /= b;
+		return c;
 	}
 
 	friend std::ostream& operator <<(std::ostream& out, const Hex& h);

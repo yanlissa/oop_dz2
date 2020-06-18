@@ -61,5 +61,10 @@ int main()
 	h /= hx;
 	cout << "186a0 / 19 = " << h << endl;
 
+	h = Hex("100000000");
+	hx = Hex("19");
+	cout << "100000000 - 19 = " << h - hx << endl;
+
+	cout << "2 * 2 = " << Hex("2") * Hex("2") << endl;
 	return 0;
 }
