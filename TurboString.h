@@ -53,5 +53,18 @@ public:
 		return *this;
 	}
 
+	TurboString& insert(std::size_t pos, const TurboString& t)
+	{
+		char tmp[256];
+		if ((pos - 1) > m_l || (m_l + t.m_l) > 255) {
+			throw std::overflow_error("TurboString::insert");
+		}
+		memmove(tmp, t.m_s, t.m_l + 1);
+		memmove(m_s + pos + t.m_l - 1, m_s + pos - 1, t.m_l);
+		memmove(m_s + pos - 1, tmp, t.m_l);
+		m_l += t.m_l;
+		return *this;
+	}
+
 	friend std::ostream& operator <<(std::ostream& out, const TurboString& s);
 };
