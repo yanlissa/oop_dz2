@@ -10,5 +10,6 @@ int main()
 	cout << '"' << s << '"' << ".len() = " << s.len() << endl;
 	TurboString t("Turbo");
 	cout << '"' << t << "\" in \"" << s  << "\" at " << s.str(t) << endl;
+	cout << s.del(s.str(t), t.len()) << " w/out " << t << endl;
 	return 0;
 }

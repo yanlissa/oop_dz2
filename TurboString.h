@@ -43,5 +43,15 @@ public:
 		return p - m_s + 1;
 	}
 
+	TurboString& del(std::size_t pos, std::size_t len)
+	{
+		if ((pos - 1) >= m_l || (pos + len - 1) >= m_l) {
+			throw std::out_of_range("TurboString::del");
+		}
+		memmove(m_s + pos - 1, m_s + pos + len - 1, m_l - len - pos + 2);
+		m_l -= len;
+		return *this;
+	}
+
 	friend std::ostream& operator <<(std::ostream& out, const TurboString& s);
 };
