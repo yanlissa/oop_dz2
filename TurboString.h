@@ -23,5 +23,10 @@ public:
 		memcpy(m_s, s, l + 1);
 	}
 
+	std::size_t len()
+	{
+		return m_l;
+	}
+
 	friend std::ostream& operator <<(std::ostream& out, const TurboString& s);
 };

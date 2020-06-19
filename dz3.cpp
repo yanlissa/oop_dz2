@@ -7,5 +7,6 @@ int main()
 {
 	TurboString s("TurboString");
 	cout << s << endl;
+	cout << '"' << s << '"' << ".len() = " << s.len() << endl;
 	return 0;
 }
