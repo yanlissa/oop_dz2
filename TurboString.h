@@ -66,5 +66,10 @@ public:
 		return *this;
 	}
 
+	TurboString& append(const TurboString& t)
+	{
+		return insert(m_l + 1, t);
+	}
+
 	friend std::ostream& operator <<(std::ostream& out, const TurboString& s);
 };
