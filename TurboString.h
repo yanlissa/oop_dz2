@@ -1,6 +1,6 @@
 #pragma once
 #include <cstring>
-#include <ostream>
+#include <iostream>
 
 class TurboString
 {
@@ -20,12 +20,27 @@ public:
 			throw std::overflow_error("TurboString::TurboString");
 		}
 		m_l = l;
-		memcpy(m_s, s, l + 1);
+		memmove(m_s, s, l + 1);
+	}
+
+	TurboString(const TurboString& t)
+	{
+		m_l = t.m_l;
+		memmove(m_s, t.m_s, m_l + 1);
 	}
 
 	std::size_t len()
 	{
 		return m_l;
+	}
+
+	std::size_t str(const TurboString& s)
+	{
+		const char *p = strstr(m_s, s.m_s);
+		if (!p) {
+			return 0;
+		}
+		return p - m_s + 1;
 	}
 
 	friend std::ostream& operator <<(std::ostream& out, const TurboString& s);
