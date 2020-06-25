@@ -13,5 +13,5 @@ test: all
 	cat test_input.txt | ./dz2
 	./dz3
 
-dz3: TurboString.o dz3.o
+dz3: Array.o TurboString.o dz3.o
 	g++ -o $@ $^

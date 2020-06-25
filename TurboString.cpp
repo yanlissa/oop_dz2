@@ -1,10 +1,10 @@
 #include "TurboString.h"
 
-std::ostream& operator <<(std::ostream& out, const TurboString& s)
+std::ostream& TurboString::print(std::ostream& out) const
 {
-	if (!(s.m_l)) {
+	if (!m_l) {
 		return out;
 	}
 
-	return out << s.m_s;
+	return out << m_data;
 }

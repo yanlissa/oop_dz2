@@ -2,16 +2,16 @@
 #include <cstring>
 #include <iostream>
 
-class TurboString
+#include "Array.h"
+
+class TurboString: public Array
 {
-private:
-	std::size_t m_l;
-	char m_s[256];
 public:
 	TurboString(const char* s = nullptr)
+		:Array{}
 	{
 		m_l = 0;
-		m_s[0] = 0;
+		m_data[0] = 0;
 		if (!s) {
 			return;
 		}
@@ -20,13 +20,13 @@ public:
 			throw std::overflow_error("TurboString::TurboString");
 		}
 		m_l = l;
-		memmove(m_s, s, l + 1);
+		memmove(m_data, s, l + 1);
 	}
 
 	TurboString(const TurboString& t)
 	{
 		m_l = t.m_l;
-		memmove(m_s, t.m_s, m_l + 1);
+		memmove(m_data, t.m_data, m_l + 1);
 	}
 
 	std::size_t len()
@@ -36,11 +36,13 @@ public:
 
 	std::size_t str(const TurboString& s)
 	{
-		const char *p = strstr(m_s, s.m_s);
+		const char* find = reinterpret_cast<const char*>(s.m_data);
+		const char* str = reinterpret_cast<const char*>(m_data);
+		const char *p = strstr(str, find);
 		if (!p) {
 			return 0;
 		}
-		return p - m_s + 1;
+		return p - str + 1;
 	}
 
 	TurboString& del(std::size_t pos, std::size_t len)
@@ -48,7 +50,7 @@ public:
 		if ((pos - 1) >= m_l || (pos + len - 1) >= m_l) {
 			throw std::out_of_range("TurboString::del");
 		}
-		memmove(m_s + pos - 1, m_s + pos + len - 1, m_l - len - pos + 2);
+		memmove(m_data + pos - 1, m_data + pos + len - 1, m_l - len - pos + 2);
 		m_l -= len;
 		return *this;
 	}
@@ -59,9 +61,9 @@ public:
 		if ((pos - 1) > m_l || (m_l + t.m_l) > 255) {
 			throw std::overflow_error("TurboString::insert");
 		}
-		memmove(tmp, t.m_s, t.m_l + 1);
-		memmove(m_s + pos + t.m_l - 1, m_s + pos - 1, t.m_l);
-		memmove(m_s + pos - 1, tmp, t.m_l);
+		memmove(tmp, t.m_data, t.m_l + 1);
+		memmove(m_data + pos + t.m_l - 1, m_data + pos - 1, t.m_l);
+		memmove(m_data + pos - 1, tmp, t.m_l);
 		m_l += t.m_l;
 		return *this;
 	}
@@ -71,5 +73,5 @@ public:
 		return insert(m_l + 1, t);
 	}
 
-	friend std::ostream& operator <<(std::ostream& out, const TurboString& s);
+	std::ostream& print(std::ostream& out) const override;
 };
