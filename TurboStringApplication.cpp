@@ -41,6 +41,54 @@ void TurboStringApplication::ShowALength()
 	cout << '"' << *m_a << '"' << ".len() = " << dec << m_a->len() << endl;
 }
 
+void TurboStringApplication::FindBinA()
+{
+	cout << '"' << *m_b << '"' << " в ";
+	cout << '"' << *m_a << '"';
+	size_t pos = m_a->str(*m_b);
+	if (pos) {
+		cout << " найдена в позиции " << pos << endl;
+	} else {
+		cout << " не найдена" << endl;
+	}
+}
+
+void TurboStringApplication::RemoveFromA()
+{
+	size_t start, length;
+	cout << "Введите начало удаляемой подстроки: ";
+	cin >> start;
+	if (cin.fail()) {
+		cin.clear();
+		cin.ignore();
+		return;
+	}
+	cout << start << endl;
+	cout << "Введите длину удаляемой подстроки: ";
+	cin >> length;
+	if (cin.fail()) {
+		cin.clear();
+		cin.ignore();
+		return;
+	}
+	cout << length << endl;
+	m_a->del(start, length);
+}
+
+void TurboStringApplication::InsertBinA()
+{
+	size_t start;
+	cout << "Введите начало всталяемой подстроки: ";
+	cin >> start;
+	if (cin.fail()) {
+		cin.clear();
+		cin.ignore();
+		return;
+	}
+	cout << start << endl;
+	m_a->insert(start, *m_b);
+}
+
 void TurboStringApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
@@ -64,6 +112,9 @@ void TurboStringApplication::PrintMenu()
         cout << "2: Ввод А" << endl;
         cout << "3: Ввод B" << endl;
         cout << "4: Показать длину А" << endl;
+        cout << "5: Найти B в А" << endl;
+        cout << "6: Удалить подстроку из А" << endl;
+        cout << "7: Вставить В в А" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Выберите пункт: ";
 }
@@ -98,6 +149,15 @@ void TurboStringApplication::Run()
 			break;
 		case 4:
 			ShowALength();
+			break;
+		case 5:
+			FindBinA();
+			break;
+		case 6:
+			RemoveFromA();
+			break;
+		case 7:
+			InsertBinA();
 			break;
 		default:
 			break;

@@ -12,6 +12,9 @@ private:
 	void InputA();
 	void InputB();
 	void ShowALength();
+	void FindBinA();
+	void RemoveFromA();
+	void InsertBinA();
 public:
         TurboStringApplication()
 		:m_a{nullptr}, m_b{nullptr}
