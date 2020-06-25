@@ -89,6 +89,11 @@ void TurboStringApplication::InsertBinA()
 	m_a->insert(start, *m_b);
 }
 
+void TurboStringApplication::ConcatAandB()
+{
+	m_a->append(*m_b);
+}
+
 void TurboStringApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
@@ -115,6 +120,7 @@ void TurboStringApplication::PrintMenu()
         cout << "5: Найти B в А" << endl;
         cout << "6: Удалить подстроку из А" << endl;
         cout << "7: Вставить В в А" << endl;
+        cout << "8: Сцепить А и В" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Выберите пункт: ";
 }
@@ -158,6 +164,9 @@ void TurboStringApplication::Run()
 			break;
 		case 7:
 			InsertBinA();
+			break;
+		case 8:
+			ConcatAandB();
 			break;
 		default:
 			break;

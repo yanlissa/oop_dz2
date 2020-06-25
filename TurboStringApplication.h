@@ -15,6 +15,7 @@ private:
 	void FindBinA();
 	void RemoveFromA();
 	void InsertBinA();
+	void ConcatAandB();
 public:
         TurboStringApplication()
 		:m_a{nullptr}, m_b{nullptr}
