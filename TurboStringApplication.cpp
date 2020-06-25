@@ -26,6 +26,16 @@ void TurboStringApplication::InputA()
 	m_a = new TurboString(s.c_str());
 }
 
+void TurboStringApplication::InputB()
+{
+	string s;
+	cout << "Введите строку: ";
+	cin >> s;
+	cout << s << endl;
+	delete m_b;
+	m_b = new TurboString(s.c_str());
+}
+
 void TurboStringApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
@@ -37,9 +47,17 @@ void TurboStringApplication::PrintMenu()
 		cout << "не определена";
 	}
         cout << endl;
+	cout << "B: ";
+	if (m_b) {
+		cout << *m_b;
+	} else {
+		cout << "не определена";
+	}
+        cout << endl;
         cout << "0: Выход" << endl;
         cout << "1: Отладочный вывод" << endl;
         cout << "2: Ввод А" << endl;
+        cout << "3: Ввод B" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Выберите пункт: ";
 }
@@ -53,6 +71,11 @@ void TurboStringApplication::Run()
 	{
 		PrintMenu();
 		cin >> ex;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore();
+			continue;
+		}
 		cout << ex << endl;
 		switch (ex) {
 		case 0:
@@ -63,6 +86,9 @@ void TurboStringApplication::Run()
 			break;
 		case 2:
 			InputA();
+			break;
+		case 3:
+			InputB();
 			break;
 		default:
 			break;

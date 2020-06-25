@@ -178,6 +178,11 @@ void HexApplication::Run()
 	{
 		PrintMenu();
 		cin >> ex;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore();
+			continue;
+		}
 		cout << ex << endl;
 		switch (ex) {
 		case 0:
