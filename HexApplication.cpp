@@ -80,6 +80,16 @@ void HexApplication::InputA()
 	m_a = new Hex(s.c_str());
 }
 
+void HexApplication::InputB()
+{
+	string s;
+	cout << "Введите шестнадцатеричное число: ";
+	cin >> s;
+	cout << s << endl;
+	delete m_b;
+	m_b = new Hex(s.c_str());
+}
+
 void HexApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
@@ -91,9 +101,17 @@ void HexApplication::PrintMenu()
 		cout << "не определено";
 	}
         cout << endl;
+	cout << "B: ";
+	if (m_b) {
+		cout << *m_b;
+	} else {
+		cout << "не определено";
+	}
+        cout << endl;
         cout << "0: Выход" << endl;
         cout << "1: Отладочный вывод" << endl;
         cout << "2: Ввести А" << endl;
+        cout << "3: Ввести B" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Выберите пункт: ";
 }
@@ -117,6 +135,9 @@ void HexApplication::Run()
 			break;
 		case 2:
 			InputA();
+			break;
+		case 3:
+			InputB();
 			break;
 		default:
 			break;
