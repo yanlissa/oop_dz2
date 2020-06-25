@@ -97,6 +97,13 @@ void HexApplication::AddAtoB()
 	*m_c += *m_b;
 }
 
+void HexApplication::SubtractBfromA()
+{
+	delete m_c;
+	m_c = new Hex(*m_a);
+	*m_c -= *m_b;
+}
+
 void HexApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
@@ -127,6 +134,7 @@ void HexApplication::PrintMenu()
         cout << "2: Ввести А" << endl;
         cout << "3: Ввести B" << endl;
         cout << "4: C = A + B" << endl;
+        cout << "5: C = A - B" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Выберите пункт: ";
 }
@@ -156,6 +164,9 @@ void HexApplication::Run()
 			break;
 		case 4:
 			AddAtoB();
+			break;
+		case 5:
+			SubtractBfromA();
 			break;
 		default:
 			break;

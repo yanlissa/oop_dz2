@@ -13,6 +13,7 @@ private:
 	void InputA();
 	void InputB();
 	void AddAtoB();
+	void SubtractBfromA();
 public:
         HexApplication()
 		:m_a{nullptr}, m_b{nullptr}, m_c{nullptr}
