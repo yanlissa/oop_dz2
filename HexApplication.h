@@ -15,6 +15,7 @@ private:
 	void AddAtoB();
 	void SubtractBfromA();
 	void MultiplyAbyB();
+	void DivideAbyB();
 public:
         HexApplication()
 		:m_a{nullptr}, m_b{nullptr}, m_c{nullptr}

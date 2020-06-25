@@ -111,6 +111,13 @@ void HexApplication::MultiplyAbyB()
 	*m_c *= *m_b;
 }
 
+void HexApplication::DivideAbyB()
+{
+	delete m_c;
+	m_c = new Hex(*m_a);
+	*m_c /= *m_b;
+}
+
 void HexApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
@@ -143,6 +150,7 @@ void HexApplication::PrintMenu()
         cout << "4: C = A + B" << endl;
         cout << "5: C = A - B" << endl;
         cout << "6: C = A * B" << endl;
+        cout << "7: C = A / B" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Выберите пункт: ";
 }
@@ -178,6 +186,9 @@ void HexApplication::Run()
 			break;
 		case 6:
 			MultiplyAbyB();
+			break;
+		case 7:
+			DivideAbyB();
 			break;
 		default:
 			break;
