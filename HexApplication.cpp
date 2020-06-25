@@ -74,6 +74,7 @@ void HexApplication::TestAll()
 void HexApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+        cout << "Hex" << endl;
         cout << "0: Выход" << endl;
         cout << "1: Отладочный вывод" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
