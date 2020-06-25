@@ -90,6 +90,13 @@ void HexApplication::InputB()
 	m_b = new Hex(s.c_str());
 }
 
+void HexApplication::AddAtoB()
+{
+	delete m_c;
+	m_c = new Hex(*m_a);
+	*m_c += *m_b;
+}
+
 void HexApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
@@ -108,10 +115,18 @@ void HexApplication::PrintMenu()
 		cout << "не определено";
 	}
         cout << endl;
+	cout << "C: ";
+	if (m_c) {
+		cout << *m_c;
+	} else {
+		cout << "не определено";
+	}
+        cout << endl;
         cout << "0: Выход" << endl;
         cout << "1: Отладочный вывод" << endl;
         cout << "2: Ввести А" << endl;
         cout << "3: Ввести B" << endl;
+        cout << "4: C = A + B" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Выберите пункт: ";
 }
@@ -138,6 +153,9 @@ void HexApplication::Run()
 			break;
 		case 3:
 			InputB();
+			break;
+		case 4:
+			AddAtoB();
 			break;
 		default:
 			break;
