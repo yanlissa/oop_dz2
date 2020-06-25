@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "TurboStringApplication.h"
-#include "TurboString.h"
 
 using namespace std;
 
@@ -17,12 +16,30 @@ void TurboStringApplication::TestAll()
 	cout << "s with \"" << t << "\" : " << s.append(t) << endl;
 }
 
+void TurboStringApplication::InputA()
+{
+	string s;
+	cout << "Введите строку: ";
+	cin >> s;
+	cout << s << endl;
+	delete m_a;
+	m_a = new TurboString(s.c_str());
+}
+
 void TurboStringApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "TurboString" << endl;
+	cout << "A: ";
+	if (m_a) {
+		cout << *m_a;
+	} else {
+		cout << "не определена";
+	}
+        cout << endl;
         cout << "0: Выход" << endl;
         cout << "1: Отладочный вывод" << endl;
+        cout << "2: Ввод А" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Выберите пункт: ";
 }
@@ -43,6 +60,9 @@ void TurboStringApplication::Run()
 			break;
 		case 1:
 			TestAll();
+			break;
+		case 2:
+			InputA();
 			break;
 		default:
 			break;
