@@ -36,6 +36,11 @@ void TurboStringApplication::InputB()
 	m_b = new TurboString(s.c_str());
 }
 
+void TurboStringApplication::ShowALength()
+{
+	cout << '"' << *m_a << '"' << ".len() = " << dec << m_a->len() << endl;
+}
+
 void TurboStringApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
@@ -58,6 +63,7 @@ void TurboStringApplication::PrintMenu()
         cout << "1: Отладочный вывод" << endl;
         cout << "2: Ввод А" << endl;
         cout << "3: Ввод B" << endl;
+        cout << "4: Показать длину А" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Выберите пункт: ";
 }
@@ -89,6 +95,9 @@ void TurboStringApplication::Run()
 			break;
 		case 3:
 			InputB();
+			break;
+		case 4:
+			ShowALength();
 			break;
 		default:
 			break;

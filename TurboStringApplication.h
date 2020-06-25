@@ -11,6 +11,7 @@ private:
         void TestAll();
 	void InputA();
 	void InputB();
+	void ShowALength();
 public:
         TurboStringApplication()
 		:m_a{nullptr}, m_b{nullptr}
