@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "HexApplication.h"
-#include "Hex.h"
 
 using namespace std;
 
@@ -71,12 +70,30 @@ void HexApplication::TestAll()
 	cout << "2 * 2 = " << Hex("2") * Hex("2") << endl;
 }
 
+void HexApplication::InputA()
+{
+	string s;
+	cout << "Введите шестнадцатеричное число: ";
+	cin >> s;
+	cout << s << endl;
+	delete m_a;
+	m_a = new Hex(s.c_str());
+}
+
 void HexApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Hex" << endl;
+	cout << "A: ";
+	if (m_a) {
+		cout << *m_a;
+	} else {
+		cout << "не определено";
+	}
+        cout << endl;
         cout << "0: Выход" << endl;
         cout << "1: Отладочный вывод" << endl;
+        cout << "2: Ввести А" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Выберите пункт: ";
 }
@@ -97,6 +114,9 @@ void HexApplication::Run()
 			break;
 		case 1:
 			TestAll();
+			break;
+		case 2:
+			InputA();
 			break;
 		default:
 			break;
