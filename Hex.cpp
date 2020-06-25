@@ -70,7 +70,7 @@ Hex& Hex::add(const Hex& h)
 	}
 
 	if (c) {
-		if (m_order == HEX_SIZE) {
+		if (m_order == ARRAY_SIZE) {
 			throw std::overflow_error("Hex::add");
 		}
 		m_data[m_order] = c;
@@ -122,7 +122,7 @@ Hex& Hex::multiply_digit(unsigned char d)
 	}
 
 	if (c) {
-		if (m_order == HEX_SIZE) {
+		if (m_order == ARRAY_SIZE) {
 			throw std::overflow_error("Hex::add");
 		}
 		m_data[m_order] = c;
@@ -133,14 +133,14 @@ Hex& Hex::multiply_digit(unsigned char d)
 }
 
 
-std::ostream& operator <<(std::ostream& out, const Hex& h)
+std::ostream& Hex::print(std::ostream& out) const
 {
-	if (h.m_sign) {
+	if (m_sign) {
 		out << '-';
 	}
 
-	for (int i = h.m_order - 1; i >= 0; i--) {
-		out << std::hex << (unsigned int) h.m_data[i];
+	for (int i = m_order - 1; i >= 0; i--) {
+		out << std::hex << (unsigned int) m_data[i];
 	}
 	return out;
 }

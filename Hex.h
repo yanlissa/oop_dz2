@@ -2,12 +2,11 @@
 #include <cstring>
 #include <iostream>
 
-#define HEX_SIZE 128
+#include "Array.h"
 
-class Hex
+class Hex: public Array
 {
 private:
-	unsigned char* m_data;
 	unsigned int m_sign;
 	unsigned int m_order;
 private:
@@ -19,25 +18,18 @@ private:
 	Hex& multiply_digit(unsigned char d);
 public:
 	Hex()
-		:m_sign{0}, m_order{0}
+		:Array{}, m_sign{0}, m_order{0}
 	{
-		m_data = new unsigned char [HEX_SIZE]();
-	}
-
-	~Hex()
-	{
-		delete m_data;
 	}
 
 	Hex(const char *str)
 	{
 		m_sign = 0;
-		m_data = new unsigned char [HEX_SIZE]();
 		int len = strlen(str);
-		if (len > HEX_SIZE) {
-			return;
+		if (len > ARRAY_SIZE) {
+			throw std::overflow_error("Hex::Hex(str)");
 		}
-		unsigned char* d= new unsigned char [HEX_SIZE]();
+		unsigned char* d= new unsigned char [ARRAY_SIZE]();
 		int j = len - 1;
 		for (int i = 0; i < len; i++) {
 			char c = str[j];
@@ -59,25 +51,24 @@ public:
 			}
 			j--;
 		}
-		delete m_data;
 		m_order = len - m_sign;
 		m_data = d;
 	}
 
 	Hex(const Hex& h, std::size_t sh = 0)
 	{
-		if (h.m_order + sh > HEX_SIZE) {
+		if (h.m_order + sh > ARRAY_SIZE) {
 			throw std::overflow_error("Hex::Hex");
 		}
-		m_data = new unsigned char [HEX_SIZE]();
-		memcpy(m_data + sh, h.m_data, HEX_SIZE - sh);
+		m_data = new unsigned char [ARRAY_SIZE]();
+		memcpy(m_data + sh, h.m_data, ARRAY_SIZE - sh);
 		m_sign = h.m_sign;
 		m_order = h.m_order + sh;
 	}
 
 	Hex& operator=(const Hex& h)
 	{
-		memcpy(m_data, h.m_data, HEX_SIZE);
+		memcpy(m_data, h.m_data, ARRAY_SIZE);
 		m_sign = h.m_sign;
 		m_order = h.m_order;
 		return *this;
@@ -115,6 +106,15 @@ public:
 		return add(h);
 	}
 
+	Array& operator+=(const Array& other) override
+	{
+		const Hex* h = dynamic_cast<const Hex*>(&other);
+		if (!h) {
+			throw std::logic_error("Hex::+=");
+		}
+		return *this+=*h;
+	}
+
 	Hex& operator-=(const Hex& h)
 	{
 		if (m_sign != h.m_sign) {
@@ -125,7 +125,7 @@ public:
 
 	Hex& operator*=(const Hex& h)
 	{
-		if (h.m_order + m_order > HEX_SIZE) {
+		if (h.m_order + m_order > ARRAY_SIZE) {
 			throw std::overflow_error("Hex::add");
 		}
 		m_sign ^= h.m_sign;
@@ -196,5 +196,5 @@ public:
 		return c;
 	}
 
-	friend std::ostream& operator <<(std::ostream& out, const Hex& h);
+	std::ostream& print(std::ostream& out) const override;
 };
