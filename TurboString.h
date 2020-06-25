@@ -73,5 +73,14 @@ public:
 		return insert(m_l + 1, t);
 	}
 
+	Array& operator+=(const Array& other) override
+	{
+		const TurboString* t = dynamic_cast<const TurboString*>(&other);
+		if (!t) {
+			throw std::logic_error("TurboString::+=");
+		}
+		return append(*t);
+	}
+
 	std::ostream& print(std::ostream& out) const override;
 };
