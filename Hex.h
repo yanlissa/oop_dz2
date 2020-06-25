@@ -98,6 +98,14 @@ public:
 		return absolute_lt(h);
 	}
 
+	bool operator==(const Hex& h) const
+	{
+		if (m_sign != h.m_sign) {
+			return false;
+		}
+		return absolute_e(h);
+	}
+
 	Hex& operator+=(const Hex& h)
 	{
 		if (m_sign != h.m_sign) {

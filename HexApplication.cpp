@@ -118,6 +118,19 @@ void HexApplication::DivideAbyB()
 	*m_c /= *m_b;
 }
 
+void HexApplication::CompareAandB()
+{
+	cout << *m_a;
+	if (*m_a == *m_b) {
+		cout << " = ";
+	} else if (*m_a < *m_b) {
+		cout << " < ";
+	} else {
+		cout << " > ";
+	}
+	cout << *m_b << endl;
+}
+
 void HexApplication::PrintMenu()
 {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
@@ -151,6 +164,7 @@ void HexApplication::PrintMenu()
         cout << "5: C = A - B" << endl;
         cout << "6: C = A * B" << endl;
         cout << "7: C = A / B" << endl;
+        cout << "8: Сравнить А и В" << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Выберите пункт: ";
 }
@@ -189,6 +203,9 @@ void HexApplication::Run()
 			break;
 		case 7:
 			DivideAbyB();
+			break;
+		case 8:
+			CompareAandB();
 			break;
 		default:
 			break;

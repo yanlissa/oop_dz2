@@ -48,7 +48,7 @@ bool Hex::absolute_e(const Hex& h) const
 		return false;
 	}
 
-	for (int i = m_order - 1; i > 0; i--) {
+	for (int i = m_order - 1; i >= 0; i--) {
 		if (m_data[i] != h.m_data[i]) {
 			return false;
 		}
